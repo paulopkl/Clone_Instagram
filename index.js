@@ -6,7 +6,9 @@ import { Provider } from 'react-redux';
 import { storeConfig } from './src/store/storeConfig';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://lambe-ce038-default-rtdb.firebaseio.com/';
+import { API } from '@env';
+
+axios.defaults.baseURL = API;
 
 const store = storeConfig();
 const Redux = () => (

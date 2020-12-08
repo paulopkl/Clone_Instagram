@@ -1,9 +1,6 @@
 import { SET_MESSAGE } from '../actions/actionTypes';
 
-const initialState = {
-    title: '',
-    text: ''
-}
+const initialState = { title: '', text: '' }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {

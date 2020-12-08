@@ -64,9 +64,6 @@ class AddPhoto extends Component {
                 comment: this.state.comment
             }]
         });
-
-        // this.setState({ image: null, comment: '' });
-        // this.props.navigation.navigate('Feed');
     }
 
     render() {
@@ -88,7 +85,6 @@ class AddPhoto extends Component {
                         editable={this.props.name ? true : false}
                     />
                     <TouchableOpacity onPress={this.save} 
-                    // disabled={this.props.loading  != 'false'}
                         style={[styles.button, this.props.loading ? styles.buttonDisabled : null]}>
                             <Text style={styles.buttonText}>Save</Text>
                     </TouchableOpacity>

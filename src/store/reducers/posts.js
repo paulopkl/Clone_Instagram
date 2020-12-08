@@ -12,13 +12,6 @@ const initialState = {
     //             { nickname: 'Ana Julia Arruda', comment: 'Beautiful photo! where was it taken' },
     //         ]
     //     },
-    //     {
-    //         id: Math.random() * 10, 
-    //         nickname: 'Francisco Leandro Lima', 
-    //         email: 'fllima@gmail.com',
-    //         image: require('../../../assets/imgs/bw.jpg'),
-    //         comments: []
-    //     }
     // ],
     posts: [],
     isUploading: false,

@@ -1,13 +1,15 @@
-import { SET_POSTS, ADD_COMMENT, CREATING_POSTS, POST_CREATED } from './actionTypes';
+import { SET_POSTS, CREATING_POSTS, POST_CREATED } from './actionTypes';
 import { setMessage } from './message';
 import axios from 'axios';
+
+import { PROJECTID } from '@env';
 
 const addPost = post => (dispatch, getState) => {
     dispatch(creatingPost())
     // https://us-central1-lambe-ce038.cloudfunctions.net/uploadImage
     axios({
         url: 'uploadImage',
-        baseURL: 'https://us-central1-lambe-ce038.cloudfunctions.net',
+        baseURL: `https://us-central1-${PROJECTID}.cloudfunctions.net`,
         method: 'post',
         data: { image: post.image.base64 }
     })

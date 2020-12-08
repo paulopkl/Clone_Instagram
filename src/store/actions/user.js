@@ -2,8 +2,7 @@ import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_LOADED, LOADING_USER } from './ac
 import { setMessage } from './message';
 import axios from 'axios';
 
-const authBaseURL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
-const API_KEY = 'AIzaSyAs57eIVdacg34XqQM27E0ex_COQEesNHQ';
+import { API_KEY, AUTHBASEURL } from '@env';
 
 const userLogged = user => ({ type: USER_LOGGED_IN, payload: { ...user } });
 
@@ -11,7 +10,7 @@ const logout = () => ({ type: USER_LOGGED_OUT });
 
 const createUser = user => dispatch => {
     dispatch(loadingUser()); // Starts the loading
-    axios.post(`${authBaseURL}/signupNewUser?key=${API_KEY}`, {
+    axios.post(`${AUTHBASEURL}/signupNewUser?key=${API_KEY}`, {
         email: user.email,
         password: user.password,
         returnSecure: true

@@ -10,7 +10,6 @@ const reducers = combineReducers({
     message: messageReducer,
 });
 
-// const storeConfig = () => createStore(reducers);
 const middlewareChain = applyMiddleware(thunk);
 const storeConfig = () => createStore(reducers, compose(middlewareChain));
 

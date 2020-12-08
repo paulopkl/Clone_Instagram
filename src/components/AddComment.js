@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableWithoutFeedback as Touch, Alert, TextInput, StyleSheet } from 'react-native';
+import { Text, View, TouchableWithoutFeedback as Touch, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { addComment } from '../store/actions/posts';
