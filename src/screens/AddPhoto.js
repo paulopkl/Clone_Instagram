@@ -5,7 +5,6 @@ import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import { addPost } from '../store/actions/posts';
 
-
 const noUser = "You need be logged to add images!";
 
 class AddPhoto extends Component {
@@ -16,6 +15,14 @@ class AddPhoto extends Component {
         this.state = {
             image: null, // { uri: '', base64: 'aDddACCAsAAadCVFasFglççvADF' }
             comment: ''
+        }
+    }
+
+    componentDidUpdate = prevProps => {
+        if (prevProps.loading && !this.props.loading) {
+            this.setState({ image: null, comment: '' });
+
+            this.props.navigation.navigate('Feed');
         }
     }
 
@@ -30,9 +37,13 @@ class AddPhoto extends Component {
             maxHeight: 600, 
             maxWidth: 800 
         }, res => {
-            console.log(res.data);
             if (!res.didCancel) {
-                 this.setState({ image: { uri: res.uri, base64: res.data } });
+                this.setState({ 
+                    image: {
+                        uri: res.uri, 
+                        base64: res.data 
+                    }
+                });
             }
         });
     }
@@ -43,20 +54,19 @@ class AddPhoto extends Component {
             return;
         }
 
-        this.props.onAddPost({
+        await this.props.onAddPost({
             id: Math.random() * 10,
             nickname: this.props.name,
             email: this.props.email,
-            image: this.state.image,
+            image: this.state.image, // image: { uri: res.uri, base64: res.data }
             comments: [{
                 nickname: this.props.name,
                 comment: this.state.comment
             }]
         });
 
-        this.setState({ image: null, comment: '' });
-
-        this.props.navigation.navigate('Feed');
+        // this.setState({ image: null, comment: '' });
+        // this.props.navigation.navigate('Feed');
     }
 
     render() {
@@ -77,8 +87,10 @@ class AddPhoto extends Component {
                         onChangeText={text => this.setState({ comment: text })}
                         editable={this.props.name ? true : false}
                     />
-                    <TouchableOpacity onPress={this.save} style={styles.button}>
-                        <Text style={styles.buttonText}>Save</Text>
+                    <TouchableOpacity onPress={this.save} 
+                    // disabled={this.props.loading  != 'false'}
+                        style={[styles.button, this.props.loading ? styles.buttonDisabled : null]}>
+                            <Text style={styles.buttonText}>Save</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -125,13 +137,18 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 20,
         width: '90%',
+    },
+
+    buttonDisabled: {
+        backgroundColor: '#AAA'
     }
 });
 
 
 const mapStateToProps = state => ({
     name: state.user.name,
-    email: state.user.email
+    email: state.user.email,
+    loading: state.posts.isUploading
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
 import { connect } from 'react-redux';
+import { createUser } from '../store/actions/user';
 
 class Register extends Component {
 
@@ -10,7 +11,19 @@ class Register extends Component {
         this.state = {
             name: '',
             email: '',
-            password: '',
+            password: ''
+        }
+    }
+
+    componentDidUpdate = prevProps => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.setState({
+                name: '',
+                email: '',
+                password: ''
+            });
+
+            this.props.navigation.navigate('Feed');
         }
     }
 
@@ -43,7 +56,7 @@ class Register extends Component {
                     onChangeText={text => this.setState({ password: text })}
                     secureTextEntry={true}
                 />
-                <TouchableOpacity onPress={() => {}} style={styles.button}>
+                <TouchableOpacity onPress={() => this.props.onRegister(this.state)} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
             </View>
@@ -80,15 +93,12 @@ const styles = StyleSheet.create({
     }
 });
 
-
-const mapStateToProps = state => ({
-
-})
+const mapStateToProps = state => ({ isLoading: state.user.isLoading });
 
 const mapDispatchToProps = dispatch => ({
-    // onRegister: () => dispatch(Register())
-})
+    onRegister: user => dispatch(createUser(user))
+});
 
-const register = connect(mapStateToProps, mapDispatchToProps);
+const register = connect(mapStateToProps, mapDispatchToProps)(Register);
 
 export default register;

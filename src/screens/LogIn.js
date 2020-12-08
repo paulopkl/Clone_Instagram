@@ -16,14 +16,15 @@ class LogIn extends Component {
         }
     }
 
-    login = () => {
-        this.props.onLogin(this.state);
-        this.props.navigation.navigate('Profile');
+    componentDidUpdate = prevProps => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.props.navigation.navigate('Profile');
+        }
     }
 
-    navigateToRegister = () => {
-        this.props.navigation.navigate('Register')
-    }
+    login = () => { this.props.onLogin(this.state); }
+
+    navigateToRegister = () => { this.props.navigation.navigate('Register'); }
 
     render() {
         return (
@@ -82,10 +83,10 @@ const styles = StyleSheet.create({
     }
 });
 
-// const mapStateToProps = state => ({ name: state.user.name, password: state.user.password });
+const mapStateToProps = state => ({ isLoading: state.user.isLoading });
+
 const mapDispatchToProps = dispatch => ({ onLogin: user => dispatch(login(user)) });
 
-// const login = connect(mapStateToProps, mapDispatchToProps)(LogIn);
-const logIn = connect(null, mapDispatchToProps)(LogIn);
+const logIn = connect(mapStateToProps, mapDispatchToProps)(LogIn);
 
 export default logIn;
